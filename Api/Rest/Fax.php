@@ -20,14 +20,22 @@ class Fax extends Base {
 		 * @returns - list of fax settings
 		 * @uri /fax
 		 */
-		$app->get('/', fn($request, $response, $args) => $response->withJson(\FreePBX::Fax()->getSettings()))->add($this->checkReadScopeMiddleware('settings'));
+		$app->get('/', function($request, $response, $args)
+		{
+			$response->getBody()->write(json_encode(\FreePBX::Fax()->getSettings()));
+			return $response->withHeader('Content-Type', 'application/json');
+		})->add($this->checkReadScopeMiddleware('settings'));
 
 		/**
 		* @verb GET
 		 * @returns - list of fax related modules that may be installed
 		 * @uri /fax/detect
 		 */
-		$app->get('/detect', fn($request, $response, $args) => $response->withJson(\FreePBX::Fax()->faxDetect()))->add($this->checkReadScopeMiddleware('settings'));
+		$app->get('/detect', function($request, $response, $args)
+		{
+			$response->getBody()->write(json_encode(\FreePBX::Fax()->faxDetect()));
+			return $response->withHeader('Content-Type', 'application/json');
+		})->add($this->checkReadScopeMiddleware('settings'));
 
 		/**
 		 * Updates the fax settings
@@ -35,10 +43,11 @@ class Fax extends Base {
 		 * @returns - the freshly created settings
 		 * @uri /fax
 		 */
-		$app->post('/', function ($request, $response, $args)
+		$app->post('/', function($request, $response, $args)
 		{
 			$params = $request->getParsedBody();
-			return $response->withJson(\FreePBX::Fax()->setSettings($params));
+			$response->getBody()->write(json_encode(\FreePBX::Fax()->setSettings($params)));
+			return $response->withHeader('Content-Type', 'application/json');
 		})->add($this->checkWriteScopeMiddleware('settings'));
 	}
 }

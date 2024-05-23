@@ -28,7 +28,8 @@ class FaxUsers extends Base {
 			}
 
 			$users = $users ?: false;
-			return $response->withJson($users);
+			$response->getBody()->write(json_encode($users));
+			return $response->withHeader('Content-Type', 'application/json');
 		})->add($this->checkReadScopeMiddleware('users'));
 
 		/**
@@ -43,7 +44,8 @@ class FaxUsers extends Base {
 				unset($users['user']);
 			}
 			$users = $users ?: false;
-			return $response->withJson($users);
+			$response->getBody()->write(json_encode($users));
+			return $response->withHeader('Content-Type', 'application/json');
 		})->add($this->checkReadScopeMiddleware('users'));
 
 		/**
@@ -57,13 +59,11 @@ class FaxUsers extends Base {
 
 			if (isset($args['id'], $params['faxenabled']))
 			{
-				return $response->withJson(\FreePBX::Fax()->saveUser(
-					$args['id'],
-					$params['faxenabled'],
-					$params['faxemail'])
-				);
+				$response->getBody()->write(json_encode(\FreePBX::Fax()->saveUser($args['id'] ?? '',$params['faxenabled'] ?? '',$params['faxemail'] ?? '')));
+				return $response->withHeader('Content-Type', 'application/json');
 			} else {
-				return $response->withJson(false);
+				$response->getBody()->write(json_encode(false));
+				return $response->withHeader('Content-Type', 'application/json');
 			}
 
 		})->add($this->checkWriteScopeMiddleware('users'));

@@ -214,9 +214,9 @@ $settings['papersize'] ??= 'letter';
 					<i class="fa fa-question-circle fpbx-help-icon" data-for="force_detection"></i>
 				</div>
 				<div class="col-md-9 radioset">
-					<input type="radio" class="form-control" id="force_detection_yes" name="force_detection" value="yes" <?php echo (($settings['force_detection'] == 'yes') ? 'checked' : ''); ?> >
+					<input type="radio" class="form-control" id="force_detection_yes" name="force_detection" value="yes" <?php echo ((isset($settings['force_detection']) && $settings['force_detection'] == 'yes') ? 'checked' : ''); ?> >
 					<label for="force_detection_yes"><?php echo _("Yes"); ?></label>
-					<input type="radio" class="form-control" id="force_detection_no" name="force_detection" value="no" <?php echo (($settings['force_detection'] == 'no') ? 'checked' : ''); ?> >
+					<input type="radio" class="form-control" id="force_detection_no" name="force_detection" value="no" <?php echo ((isset($settings['force_detection']) && $settings['force_detection'] == 'no') ? 'checked' : ''); ?> >
 					<label for="force_detection_no"><?php echo _("No"); ?></label>
 				</div>
 			</div>
